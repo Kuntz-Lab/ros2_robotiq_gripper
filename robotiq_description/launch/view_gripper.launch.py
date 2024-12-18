@@ -42,7 +42,7 @@ def generate_launch_description():
         package="robotiq_description"
     ).find("robotiq_description")
     default_model_path = os.path.join(
-        pkg_share, "urdf", "robotiq_2f_85_gripper.urdf.xacro"
+        pkg_share, "urdf", "robotiq_2f_140_gripper.urdf.xacro"
     )
     default_rviz_config_path = os.path.join(pkg_share, "rviz", "view_urdf.rviz")
 

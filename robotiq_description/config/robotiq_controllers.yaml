@@ -11,9 +11,10 @@ controller_manager:
 robotiq_gripper_controller:
   ros__parameters:
     default: true
-    joint: robotiq_85_left_knuckle_joint
+    joint: finger_joint
     use_effort_interface: true
     use_speed_interface: true
+    max_velocity: 0.1  # Set the maximum velocity here
 
 robotiq_activation_controller:
   ros__parameters:
