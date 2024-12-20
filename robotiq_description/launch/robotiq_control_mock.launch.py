@@ -50,6 +50,14 @@ def generate_launch_description():
     )
 
     args = []
+    # Add namespace argument
+    args.append(
+        launch.actions.DeclareLaunchArgument(
+            name="namespace",
+            default_value="robotiq",
+            description="Namespace for the Robotiq gripper",
+        )
+    )
     args.append(
         launch.actions.DeclareLaunchArgument(
             name="model",
@@ -66,7 +74,14 @@ def generate_launch_description():
     )
     args.append(
         launch.actions.DeclareLaunchArgument(
-            name="launch_rviz", default_value="true", description="Launch RViz?"
+            name="launch_rviz", default_value="false", description="Launch RViz?"
+        )
+    )
+    args.append(
+        launch.actions.DeclareLaunchArgument(
+            name="parent_frame", 
+            default_value="world",
+            description="Parent frame for the Robotiq gripper"
         )
     )
 
@@ -77,6 +92,10 @@ def generate_launch_description():
             LaunchConfiguration("model"),
             " ",
             "use_fake_hardware:=true",
+            " ",
+            "parent:='",
+            LaunchConfiguration("parent_frame"),  # Pass parent frame to macro
+            "'",
         ]
     )
     robot_description_param = {
@@ -112,6 +131,9 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         parameters=[robot_description_param],
+        remappings=[
+            ("/robot_description", [LaunchConfiguration("namespace"), "/robot_description"]),
+        ],
     )
 
     rviz_node = launch_ros.actions.Node(
